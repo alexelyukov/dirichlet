@@ -20,8 +20,8 @@ renderBackground :: Drawing PixelRGBA8 () -> Image PixelRGBA8
 renderBackground = 
     let backgroundColor = PixelRGBA8 255 255 255 255
         drawColor = PixelRGBA8 0x00 0x00 0x00 255
-        width = 1000
-        height = 1000
+        width = 2000
+        height = 2000
     in renderDrawing width height backgroundColor . withTexture (uniformTexture drawColor)
 
 renderStrokeCircle :: Point -> Radius -> Drawing PixelRGBA8 ()
@@ -43,7 +43,7 @@ generatePoints (V2 x0 y0) (V2 x1 y1) count stdGen =
 inShape :: Point -> Bool
 inShape (V2 x y) = 
     let radius = 500
-        (centerX, centerY) = (500, 500)
+        (centerX, centerY) = (1000, 1000)
     in (x - centerX) ^ 2 + (y - centerY) ^ 2 <= radius ^ 2
 
 genDelaunayTriangulation :: [Point] -> Float

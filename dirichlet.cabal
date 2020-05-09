@@ -27,6 +27,9 @@ source-repository head
 
 library
   exposed-modules:
+      AlgorithmBowyerWatson2d
+      Generator
+      Types
       Graham
       Lib
   other-modules:
