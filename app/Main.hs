@@ -11,21 +11,17 @@ import Data.List
 main :: IO ()
 main = do
   gen <- newStdGen
-  let points = generatePoints2d (Point2d 500 500) (Point2d 1500 1500) inShape 20000 gen
+  let points = generatePoints2d (Point2d 250 250) (Point2d 1750 1750) inShape 2000 gen
       triangle = getAroundTriangle points
       triangulation = calcTriangulation triangle points
 
-
   writePng "image.png" $ drawBackground $ do
-    drawCircle $ Circle (Point2d 1000 1000) 500
-    drawPoint (Point2d 1000 1000)
+    drawCircle $ Circle (Point2d 1000 1000) 750
     drawPoints points
     drawTriangles triangulation
 
-
-
 inShape :: Point2d -> Bool
 inShape (Point2d x y) =
-  let radius = 500
+  let radius = 750
       (centerX, centerY) = (1000, 1000)
   in (x - centerX) ^ 2 + (y - centerY) ^ 2 <= radius ^ 2
