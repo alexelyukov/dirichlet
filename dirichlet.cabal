@@ -27,11 +27,10 @@ source-repository head
 
 library
   exposed-modules:
-      AlgorithmBowyerWatson2d
-      Generator
       Types
-      Graham
-      Lib
+      AlgorithmBowyerWatson2d
+      Drawer2d
+      Generator
   other-modules:
       Paths_dirichlet
   hs-source-dirs:
