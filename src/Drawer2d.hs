@@ -6,7 +6,7 @@ module Drawer2d (
   drawRectangle,
   drawLine,
   drawPoints,
-  drawPoint
+  drawPoint,
 ) where
 
 import Types

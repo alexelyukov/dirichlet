@@ -1,10 +1,6 @@
 module AlgorithmBowyerWatson2d (
   getAroundTriangle,
   calcTriangulation,
-  removeTriangle,
-  isPointInCircle,
-  getEdgesFromTriangle,
-  isNotSharedEdge
 ) where
 
 import Types
@@ -58,17 +54,16 @@ isPointInCircle (Point2d x y) (Triangle (Point2d ax ay) (Point2d bx by) (Point2d
       radius = (ab * bc * ca) / (4 * sqrt (p * (p - ab) * (p - bc) * (p - ca)))
   in (x - centerX) ^ 2 + (y - centerY) ^ 2 <= radius ^ 2
 
-calcTriangulation :: Triangle -> [Point2d] -> [[Triangle]]
+calcTriangulation :: Triangle -> [Point2d] -> [Triangle]
 calcTriangulation triangle ps =
-  let triangulation = scanl addPointToTriangulation [triangle] ps
-  -- in removeTriangle triangle triangulation
-  in triangulation
+  let triangulation = foldl addPointToTriangulation [triangle] ps
+  in removeTriangle triangle triangulation
 
 addPointToTriangulation :: [Triangle] -> Point2d -> [Triangle]
 addPointToTriangulation triangulation p =
   let badTriangles = filter (isPointInCircle p) triangulation
       polygons = mconcat [filter (`isNotSharedEdge` filter (t ~/=) badTriangles) (getEdgesFromTriangle t) | t <- badTriangles]
-      cleanTriangulation = mconcat $ map (`removeTriangle` triangulation) badTriangles
+      cleanTriangulation = filter (\t -> not $ or [t ~= bt | bt <- badTriangles]) triangulation
       newTriangulation = map (`makeTriangleByEdgeAndPoint` p) polygons ++ cleanTriangulation
   in newTriangulation
 

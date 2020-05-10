@@ -6,7 +6,7 @@ module Types (
   Rectangle( .. ),
   Edge( .. ),
   (~=),
-  (~/=)
+  (~/=),
 ) where
 
 class ApproximatelyEqual a where
@@ -23,7 +23,7 @@ data Rectangle = Rectangle Point2d Point2d deriving (Show)
 data Edge = Edge Point2d Point2d deriving (Eq, Show)
 
 instance ApproximatelyEqual Point2d where
-  Point2d p1 p2 ~= Point2d m1 m2 = sqrt ((p1 - m1) ^ 2 + (p2 - m2) ^ 2) < 1e-3
+  Point2d p1 p2 ~= Point2d m1 m2 = sqrt ((p1 - m1) ^ 2 + (p2 - m2) ^ 2) < 1e-4
 
 instance ApproximatelyEqual Edge where
   Edge p1 p2 ~= Edge m1 m2 = (p1 ~= m1 && p2 ~= m2) || (p1 ~= m2 && p2 ~= m1)
