@@ -5,6 +5,9 @@ module Types (
   Triangle( .. ),
   Rectangle( .. ),
   Edge( .. ),
+  Node( .. ),
+  Line2d( .. ),
+  LineType( .. ),
   (~=),
   (~/=),
 ) where
@@ -16,14 +19,17 @@ class ApproximatelyEqual a where
 
 type Radius = Double
 
-data Point2d = Point2d Double Double deriving (Eq, Show)
+data Point2d = Point2d Double Double deriving (Eq, Ord, Show)
 data Circle = Circle Point2d Radius deriving (Show)
 data Triangle = Triangle Point2d Point2d Point2d deriving (Eq, Show)
 data Rectangle = Rectangle Point2d Point2d deriving (Show)
 data Edge = Edge Point2d Point2d deriving (Eq, Show)
+data Line2d = Line2d Point2d Point2d deriving (Show)
+
+data Node = Node Point2d [Point2d] [Point2d] deriving (Eq, Show)
 
 instance ApproximatelyEqual Point2d where
-  Point2d p1 p2 ~= Point2d m1 m2 = sqrt ((p1 - m1) ^ 2 + (p2 - m2) ^ 2) < 1e-4
+  Point2d p1 p2 ~= Point2d m1 m2 = sqrt ((p1 - m1) ^ 2 + (p2 - m2) ^ 2) < 1e-6
 
 instance ApproximatelyEqual Edge where
   Edge p1 p2 ~= Edge m1 m2 = (p1 ~= m1 && p2 ~= m2) || (p1 ~= m2 && p2 ~= m1)
@@ -36,3 +42,5 @@ instance ApproximatelyEqual Triangle where
     || (p1 ~= m2 && p2 ~= m3 && p3 ~= m1)
     || (p1 ~= m3 && p2 ~= m1 && p3 ~= m2)
     || (p1 ~= m3 && p2 ~= m2 && p3 ~= m1)
+
+data LineType = Dash | Solid deriving (Eq, Ord, Show)

@@ -31,6 +31,9 @@ library
       AlgorithmBowyerWatson2d
       Drawer2d
       Generator
+      Geometry
+      AlgorithmDirichlet
+      Utils
   other-modules:
       Paths_dirichlet
   hs-source-dirs:

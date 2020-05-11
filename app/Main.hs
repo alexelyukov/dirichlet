@@ -7,21 +7,22 @@ import Generator
 import AlgorithmBowyerWatson2d
 import Drawer2d
 import Data.List
+import Geometry
+import AlgorithmDirichlet
 
 main :: IO ()
 main = do
   gen <- newStdGen
-  let points = generatePoints2d (Point2d 250 250) (Point2d 1750 1750) inShape 2000 gen
+  let generatedpoints = generatePoints2d (Point2d 250 250) (Point2d 1750 1750) inShape 400 gen
+      surfacePoints = getSurfacePoints 20
+      points = generatedpoints ++ surfacePoints
       triangle = getAroundTriangle points
       triangulation = calcTriangulation triangle points
+      magicPoints = map getTriangleMagicPoint triangulation
+      nodes = getNodes points triangulation
+
+  print $ checkTriangulation triangulation points
 
   writePng "image.png" $ drawBackground $ do
     drawCircle $ Circle (Point2d 1000 1000) 750
-    drawPoints points
-    drawTriangles triangulation
-
-inShape :: Point2d -> Bool
-inShape (Point2d x y) =
-  let radius = 750
-      (centerX, centerY) = (1000, 1000)
-  in (x - centerX) ^ 2 + (y - centerY) ^ 2 <= radius ^ 2
+    drawNodes nodes
